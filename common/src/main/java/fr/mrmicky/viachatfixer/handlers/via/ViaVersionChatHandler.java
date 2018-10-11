@@ -85,6 +85,12 @@ public class ViaVersionChatHandler implements ChatHandler {
     @Override
     public String handle(UUID uuid) {
         UserConnection connection = Via.getManager().getConnection(uuid);
+
+        if (connection == null) {
+            platform.getLogger().warning("Unknown connection for player with UUID " + uuid);
+            return null;
+        }
+
         ChatTracker chatTracker = connection.get(ChatTracker.class);
 
         if (chatTracker != null && chatTracker.getLastMessage() != null) {

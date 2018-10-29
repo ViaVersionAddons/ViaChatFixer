@@ -95,7 +95,7 @@ public class ViaVersionChatHandler implements ChatHandler {
         ChatTracker chatTracker = connection.get(ChatTracker.class);
 
         if (chatTracker != null && chatTracker.getLastMessage() != null) {
-            if (!chatTracker.isValid(100)){
+            if (!chatTracker.isValid(100)) {
                 chatTracker.reset();
                 return null;
             }

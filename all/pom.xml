@@ -14,7 +14,7 @@
     <name>ViaChatFixerAll</name>
 
     <build>
-        <finalName>ViaChatFixer-${project.version}</finalName>
+        <finalName>${project.parent.name}-${project.version}</finalName>
         <defaultGoal>clean install</defaultGoal>
         <plugins>
             <plugin>

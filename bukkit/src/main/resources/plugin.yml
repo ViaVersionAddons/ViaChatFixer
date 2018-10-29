@@ -2,5 +2,6 @@ name: ViaChatFixer
 version: ${project.version}
 author: MrMicky
 description: Allow 1.11+ players to have longer chat messages on 1.8-1.10 servers with ViaVersion
+website: https://www.spigotmc.org/resources/viachatfixer.61955/
 softdepend: [ViaVersion]
 main: fr.mrmicky.viachatfixer.bukkit.ViaChatFixerBukkit

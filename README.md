@@ -10,6 +10,10 @@ This plugin fix this problem, so 1.11 and higher players will able to send longe
 
 **The plugin is currently in beta, so if you find bugs please open an issue**
 
+## Downloads
+
+You can download releases and find more information on SpigotMC: https://www.spigotmc.org/resources/viachatfixer.61955/
+
 ## Installation
 Just put the ViaChatFixer jar in your plugins folder.
 Currently this plugin only works on Spigot, but Sponge support should be added soon.

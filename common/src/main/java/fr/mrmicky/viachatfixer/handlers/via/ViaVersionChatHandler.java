@@ -38,16 +38,16 @@ public class ViaVersionChatHandler implements ChatHandler {
 
         Protocol protocol = null;
         for (Map<Integer, Protocol> protocolMap : registryMap.values()) {
-            for (Protocol protocol1 : protocolMap.values()) {
-                if (protocol1 instanceof Protocol1_11To1_10) {
-                    protocol = protocol1;
+            for (Protocol prot : protocolMap.values()) {
+                if (prot instanceof Protocol1_11To1_10) {
+                    protocol = prot;
                     break;
                 }
             }
         }
 
         if (protocol == null) {
-            throw new IllegalStateException("Protocol 1_11To1_10 not founded");
+            throw new IllegalStateException("Protocol 1_11To1_10 not found");
         }
 
         protocol.registerIncoming(State.PLAY, 0x02, 0x02, new PacketRemapper() {
@@ -75,6 +75,7 @@ public class ViaVersionChatHandler implements ChatHandler {
                             }
 
                             chatTracker.setLastMessage(msg);
+                            chatTracker.updateLastMessageTime();
                         }
                     }
                 });
@@ -94,8 +95,13 @@ public class ViaVersionChatHandler implements ChatHandler {
         ChatTracker chatTracker = connection.get(ChatTracker.class);
 
         if (chatTracker != null && chatTracker.getLastMessage() != null) {
+            if (!chatTracker.isValid(100)){
+                chatTracker.reset();
+                return null;
+            }
+
             String message = chatTracker.getLastMessage();
-            chatTracker.setLastMessage(null);
+            chatTracker.reset();
             return message;
         }
 

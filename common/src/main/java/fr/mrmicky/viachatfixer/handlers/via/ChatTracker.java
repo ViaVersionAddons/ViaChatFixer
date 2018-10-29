@@ -9,6 +9,7 @@ import us.myles.ViaVersion.api.data.UserConnection;
 public class ChatTracker extends StoredObject {
 
     private String lastMessage;
+    private long lastMessageTime;
 
     public ChatTracker(UserConnection user) {
         super(user);
@@ -20,5 +21,18 @@ public class ChatTracker extends StoredObject {
 
     public void setLastMessage(String lastMessage) {
         this.lastMessage = lastMessage;
+    }
+
+    public boolean isValid(int time) {
+        return (System.currentTimeMillis() - lastMessageTime) < time;
+    }
+
+    public void updateLastMessageTime() {
+        lastMessageTime = System.currentTimeMillis();
+    }
+
+    public void reset() {
+        lastMessage = null;
+        lastMessageTime = 0;
     }
 }

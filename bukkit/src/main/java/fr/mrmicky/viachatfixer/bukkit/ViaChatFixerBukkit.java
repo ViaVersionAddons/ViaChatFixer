@@ -21,24 +21,27 @@ public final class ViaChatFixerBukkit extends JavaPlugin implements ViaChatFixer
 
     @Override
     public void onEnable() {
-        if (getServer().getPluginManager().getPlugin("ViaVersion") != null) {
-            chatHandler = new ViaVersionChatHandler(this);
-        } else {
+        if (getServer().getPluginManager().getPlugin("ViaVersion") == null) {
             // TODO support if ViaVersion is not installed, for example if ViaVersion is on the proxy
             getLogger().severe("ViaVersion is not installed");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
-        try {
-            chatHandler.init();
-        } catch (Exception e) {
-            getLogger().log(Level.SEVERE, "An error occurred during init", e);
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
+        chatHandler = new ViaVersionChatHandler(this);
 
-        getServer().getPluginManager().registerEvents(this, this);
+        // Only load when ViaVersion is loaded
+        getServer().getScheduler().runTask(this, () -> {
+            try {
+                chatHandler.init();
+            } catch (Exception e) {
+                getLogger().log(Level.SEVERE, "An error occurred during init", e);
+                getServer().getPluginManager().disablePlugin(this);
+                return;
+            }
+
+            getServer().getPluginManager().registerEvents(this, this);
+        });
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

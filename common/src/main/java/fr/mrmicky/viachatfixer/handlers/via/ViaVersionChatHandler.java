@@ -7,6 +7,7 @@ import us.myles.ViaVersion.api.Via;
 import us.myles.ViaVersion.api.data.UserConnection;
 import us.myles.ViaVersion.api.protocol.Protocol;
 import us.myles.ViaVersion.api.protocol.ProtocolRegistry;
+import us.myles.ViaVersion.api.protocol.ProtocolVersion;
 import us.myles.ViaVersion.api.remapper.PacketHandler;
 import us.myles.ViaVersion.api.remapper.PacketRemapper;
 import us.myles.ViaVersion.api.type.Type;
@@ -31,6 +32,10 @@ public class ViaVersionChatHandler implements ChatHandler {
     @SuppressWarnings("unchecked")
     @Override
     public void init() throws Exception {
+        if (ProtocolRegistry.SERVER_PROTOCOL >= ProtocolVersion.v1_11.getId()) {
+            platform.getLogger().warning("This plugin is not required on 1.11+ servers, you can just remove it :)");
+        }
+
         Field registryMapField = ProtocolRegistry.class.getDeclaredField("registryMap");
         registryMapField.setAccessible(true);
 
@@ -47,7 +52,7 @@ public class ViaVersionChatHandler implements ChatHandler {
         }
 
         if (protocol == null) {
-            throw new IllegalStateException("Protocol 1_11To1_10 not found");
+            throw new RuntimeException("Protocol 1_11To1_10 not found");
         }
 
         protocol.registerIncoming(State.PLAY, 0x02, 0x02, new PacketRemapper() {

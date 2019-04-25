@@ -6,7 +6,7 @@
 
     <groupId>fr.mrmicky</groupId>
     <artifactId>viachatfixer</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <packaging>pom</packaging>
 
     <name>ViaChatFixer</name>
@@ -60,7 +60,7 @@
         <dependency>
             <groupId>us.myles</groupId>
             <artifactId>viaversion</artifactId>
-            <version>1.5.2-SNAPSHOT</version>
+            <version>2.0.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -76,6 +76,6 @@
         <module>bukkit</module>
         <!--<module>bungee</module>
         <module>sponge</module>-->
-        <module>all</module>
+        <module>universal</module>
     </modules>
 </project>

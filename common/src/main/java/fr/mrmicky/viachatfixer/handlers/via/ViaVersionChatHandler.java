@@ -29,7 +29,6 @@ public class ViaVersionChatHandler implements ChatHandler {
         this.platform = platform;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void init() throws Exception {
         if (ProtocolRegistry.SERVER_PROTOCOL >= ProtocolVersion.v1_11.getId()) {
@@ -39,6 +38,7 @@ public class ViaVersionChatHandler implements ChatHandler {
         Field registryMapField = ProtocolRegistry.class.getDeclaredField("registryMap");
         registryMapField.setAccessible(true);
 
+        //noinspection unchecked
         Map<Integer, Map<Integer, Protocol>> registryMap = (Map<Integer, Map<Integer, Protocol>>) registryMapField.get(null);
 
         Protocol protocol = null;
@@ -85,7 +85,7 @@ public class ViaVersionChatHandler implements ChatHandler {
                     }
                 });
             }
-        });
+        }, true);
     }
 
     @Override

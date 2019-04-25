@@ -22,7 +22,6 @@ public final class ViaChatFixerBukkit extends JavaPlugin implements ViaChatFixer
     @Override
     public void onEnable() {
         if (getServer().getPluginManager().getPlugin("ViaVersion") == null) {
-            // TODO support if ViaVersion is not installed, for example if ViaVersion is on the proxy
             getLogger().severe("ViaVersion is not installed");
             getServer().getPluginManager().disablePlugin(this);
             return;

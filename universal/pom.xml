@@ -5,13 +5,13 @@
     <parent>
         <artifactId>viachatfixer</artifactId>
         <groupId>fr.mrmicky</groupId>
-        <version>0.1.0</version>
+        <version>0.2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>viachatfixer-all</artifactId>
+    <artifactId>viachatfixer-universal</artifactId>
 
-    <name>ViaChatFixerAll</name>
+    <name>ViaChatFixerUniversal</name>
 
     <build>
         <finalName>${project.parent.name}-${project.version}</finalName>

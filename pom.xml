@@ -11,12 +11,19 @@
 
     <name>ViaChatFixer</name>
 
+    <modules>
+        <module>common</module>
+        <module>bukkit</module>
+        <!--<module>bungee</module>
+        <module>sponge</module>-->
+        <module>universal</module>
+    </modules>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>
-        <defaultGoal>clean package</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -27,26 +34,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
     </build>
 
     <repositories>
@@ -71,11 +59,4 @@
         </dependency>
     </dependencies>
 
-    <modules>
-        <module>common</module>
-        <module>bukkit</module>
-        <!--<module>bungee</module>
-        <module>sponge</module>-->
-        <module>universal</module>
-    </modules>
 </project>

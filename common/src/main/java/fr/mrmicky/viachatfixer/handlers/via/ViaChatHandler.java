@@ -15,17 +15,18 @@ import us.myles.ViaVersion.packets.State;
 import us.myles.ViaVersion.protocols.protocol1_11to1_10.Protocol1_11To1_10;
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
-/**
- * @author MrMicky
- */
-public class ViaVersionChatHandler implements ChatHandler {
+public class ViaChatHandler implements ChatHandler {
+
+    private final Set<UUID> unknownPlayers = new HashSet<>();
 
     private ViaChatFixerPlatform platform;
 
-    public ViaVersionChatHandler(ViaChatFixerPlatform platform) {
+    public ViaChatHandler(ViaChatFixerPlatform platform) {
         this.platform = platform;
     }
 
@@ -71,7 +72,8 @@ public class ViaVersionChatHandler implements ChatHandler {
                             ChatTracker chatTracker = connection.get(ChatTracker.class);
 
                             if (chatTracker == null) {
-                                connection.put(chatTracker = new ChatTracker(connection));
+                                chatTracker = new ChatTracker(connection);
+                                connection.put(chatTracker);
                             }
 
                             // don't allow messages longer than 256 characters
@@ -79,8 +81,7 @@ public class ViaVersionChatHandler implements ChatHandler {
                                 msg = msg.substring(0, 256);
                             }
 
-                            chatTracker.setLastMessage(msg);
-                            chatTracker.updateLastMessageTime();
+                            chatTracker.updateLastMessage(msg);
                         }
                     }
                 });
@@ -93,7 +94,9 @@ public class ViaVersionChatHandler implements ChatHandler {
         UserConnection connection = Via.getManager().getConnection(uuid);
 
         if (connection == null) {
-            platform.getLogger().warning("Unknown connection for player with UUID " + uuid);
+            if (unknownPlayers.add(uuid)) {
+                platform.getLogger().warning("Unknown connection for player with UUID " + uuid);
+            }
             return null;
         }
 

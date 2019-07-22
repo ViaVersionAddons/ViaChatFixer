@@ -3,9 +3,6 @@ package fr.mrmicky.viachatfixer.handlers.via;
 import us.myles.ViaVersion.api.data.StoredObject;
 import us.myles.ViaVersion.api.data.UserConnection;
 
-/**
- * @author MrMicky
- */
 public class ChatTracker extends StoredObject {
 
     private String lastMessage;
@@ -19,15 +16,12 @@ public class ChatTracker extends StoredObject {
         return lastMessage;
     }
 
-    public void setLastMessage(String lastMessage) {
-        this.lastMessage = lastMessage;
-    }
-
     public boolean isValid(int time) {
         return (System.currentTimeMillis() - lastMessageTime) < time;
     }
 
-    public void updateLastMessageTime() {
+    public void updateLastMessage(String message) {
+        lastMessage = message;
         lastMessageTime = System.currentTimeMillis();
     }
 

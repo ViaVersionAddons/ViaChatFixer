@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>viachatfixer</artifactId>
         <groupId>fr.mrmicky</groupId>
+        <artifactId>viachatfixer</artifactId>
         <version>0.2.0</version>
     </parent>
 

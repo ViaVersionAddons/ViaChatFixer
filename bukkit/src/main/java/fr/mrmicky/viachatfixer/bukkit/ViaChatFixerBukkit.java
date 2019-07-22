@@ -2,7 +2,7 @@ package fr.mrmicky.viachatfixer.bukkit;
 
 import fr.mrmicky.viachatfixer.ViaChatFixerPlatform;
 import fr.mrmicky.viachatfixer.handlers.ChatHandler;
-import fr.mrmicky.viachatfixer.handlers.via.ViaVersionChatHandler;
+import fr.mrmicky.viachatfixer.handlers.via.ViaChatHandler;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -12,9 +12,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
 
-/**
- * @author MrMicky
- */
 public final class ViaChatFixerBukkit extends JavaPlugin implements ViaChatFixerPlatform, Listener {
 
     private ChatHandler chatHandler;
@@ -27,14 +24,14 @@ public final class ViaChatFixerBukkit extends JavaPlugin implements ViaChatFixer
             return;
         }
 
-        chatHandler = new ViaVersionChatHandler(this);
+        chatHandler = new ViaChatHandler(this);
 
         // Only load when ViaVersion is loaded
         getServer().getScheduler().runTask(this, () -> {
             try {
                 chatHandler.init();
             } catch (Exception e) {
-                getLogger().log(Level.SEVERE, "An error occurred during init", e);
+                getLogger().log(Level.SEVERE, "An error occurred while enabling", e);
                 getServer().getPluginManager().disablePlugin(this);
                 return;
             }

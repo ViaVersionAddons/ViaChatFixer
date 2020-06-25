@@ -7,7 +7,7 @@
     <parent>
         <groupId>fr.mrmicky</groupId>
         <artifactId>viachatfixer</artifactId>
-        <version>0.2.0</version>
+        <version>0.3.0</version>
     </parent>
 
     <artifactId>viachatfixer-bukkit</artifactId>
@@ -17,7 +17,7 @@
     <repositories>
         <repository>
             <id>spigotmc-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 

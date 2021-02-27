@@ -6,7 +6,7 @@
 
     <groupId>fr.mrmicky</groupId>
     <artifactId>viachatfixer</artifactId>
-    <version>0.3.0</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <name>ViaChatFixer</name>
@@ -14,8 +14,7 @@
     <modules>
         <module>common</module>
         <module>bukkit</module>
-        <!--<module>bungee</module>
-        <module>sponge</module>-->
+        <module>sponge</module>
         <module>universal</module>
     </modules>
 
@@ -35,22 +34,12 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
-
-    <repositories>
-        <repository>
-            <id>viaversion-repo</id>
-            <url>https://repo.viaversion.com/</url>
-        </repository>
-    </repositories>
-
-    <dependencies>
-        <dependency>
-            <groupId>us.myles</groupId>
-            <artifactId>viaversion</artifactId>
-            <version>3.0.0</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
 
 </project>

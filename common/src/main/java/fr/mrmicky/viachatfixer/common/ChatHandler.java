@@ -1,7 +1,5 @@
-package fr.mrmicky.viachatfixer.handlers.via;
+package fr.mrmicky.viachatfixer.common;
 
-import fr.mrmicky.viachatfixer.ViaChatFixerPlatform;
-import fr.mrmicky.viachatfixer.handlers.ChatHandler;
 import us.myles.ViaVersion.api.Via;
 import us.myles.ViaVersion.api.data.UserConnection;
 import us.myles.ViaVersion.api.protocol.Protocol;
@@ -17,20 +15,21 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class ViaChatHandler implements ChatHandler {
+public class ChatHandler {
 
     private final Set<UUID> unknownPlayers = new HashSet<>();
 
     private final ViaChatFixerPlatform platform;
 
-    public ViaChatHandler(ViaChatFixerPlatform platform) {
+    private boolean enabled = false;
+
+    public ChatHandler(ViaChatFixerPlatform platform) {
         this.platform = platform;
     }
 
-    @Override
     public void init() {
         if (ProtocolRegistry.SERVER_PROTOCOL >= ProtocolVersion.v1_11.getId()) {
-            platform.getLogger().warning("This plugin is not required on 1.11+ servers, you can just remove it :)");
+            this.platform.getLoggerAdapter().warn("This plugin is not required on 1.11+ servers, you can just remove it.");
             return;
         }
 
@@ -72,27 +71,18 @@ public class ViaChatHandler implements ChatHandler {
                 });
             }
         }, true);
+
+        this.enabled = true;
     }
 
-    @Override
     public String handle(UUID uuid) {
-        UserConnection connection = Via.getManager().getConnection(uuid);
-
-        if (connection == null) {
-            if (unknownPlayers.add(uuid)) {
-                platform.getLogger().warning("Unknown connection for player with UUID " + uuid);
-            }
+        if (!this.enabled) {
             return null;
         }
 
-        ChatTracker chatTracker = connection.get(ChatTracker.class);
+        ChatTracker chatTracker = getChatTracker(uuid);
 
-        if (chatTracker == null || chatTracker.getLastMessage() == null) {
-            return null;
-        }
-
-        if (!chatTracker.isValid(100)) {
-            chatTracker.reset();
+        if (chatTracker == null) {
             return null;
         }
 
@@ -101,5 +91,26 @@ public class ViaChatHandler implements ChatHandler {
         chatTracker.reset();
 
         return message;
+    }
+
+    private ChatTracker getChatTracker(UUID uuid) {
+        UserConnection connection = Via.getManager().getConnection(uuid);
+
+        if (connection == null) {
+            if (this.unknownPlayers.add(uuid)) {
+                this.platform.getLoggerAdapter().warn("Unknown connection for player with UUID " + uuid);
+            }
+
+            return null;
+        }
+
+        ChatTracker chatTracker = connection.get(ChatTracker.class);
+
+        if (chatTracker != null && !chatTracker.isValid(100)) {
+            chatTracker.reset();
+            return null;
+        }
+
+        return chatTracker;
     }
 }

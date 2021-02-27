@@ -1,4 +1,4 @@
-package fr.mrmicky.viachatfixer.handlers.via;
+package fr.mrmicky.viachatfixer.common;
 
 import us.myles.ViaVersion.api.data.StoredObject;
 import us.myles.ViaVersion.api.data.UserConnection;
@@ -13,20 +13,24 @@ public class ChatTracker extends StoredObject {
     }
 
     public String getLastMessage() {
-        return lastMessage;
+        return this.lastMessage;
     }
 
     public boolean isValid(int time) {
-        return (System.currentTimeMillis() - lastMessageTime) < time;
+        if (this.lastMessage == null) {
+            return false;
+        }
+
+        return (System.currentTimeMillis() - this.lastMessageTime) < time;
     }
 
     public void updateLastMessage(String message) {
-        lastMessage = message;
-        lastMessageTime = System.currentTimeMillis();
+        this.lastMessage = message;
+        this.lastMessageTime = System.currentTimeMillis();
     }
 
     public void reset() {
-        lastMessage = null;
-        lastMessageTime = 0;
+        this.lastMessage = null;
+        this.lastMessageTime = 0;
     }
 }

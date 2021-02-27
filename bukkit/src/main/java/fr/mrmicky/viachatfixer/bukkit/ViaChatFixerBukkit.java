@@ -1,8 +1,9 @@
 package fr.mrmicky.viachatfixer.bukkit;
 
-import fr.mrmicky.viachatfixer.ViaChatFixerPlatform;
-import fr.mrmicky.viachatfixer.handlers.ChatHandler;
-import fr.mrmicky.viachatfixer.handlers.via.ViaChatHandler;
+import fr.mrmicky.viachatfixer.common.ChatHandler;
+import fr.mrmicky.viachatfixer.common.ViaChatFixerPlatform;
+import fr.mrmicky.viachatfixer.common.logger.JavaLoggerAdapter;
+import fr.mrmicky.viachatfixer.common.logger.LoggerAdapter;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -10,39 +11,46 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.logging.Level;
+public final class ViaChatFixerBukkit extends JavaPlugin implements Listener, ViaChatFixerPlatform {
 
-public final class ViaChatFixerBukkit extends JavaPlugin implements ViaChatFixerPlatform, Listener {
+    private final ChatHandler chatHandler = new ChatHandler(this);
 
-    private ChatHandler chatHandler;
+    private LoggerAdapter logger;
+
+    @Override
+    public void onLoad() {
+        this.logger = new JavaLoggerAdapter(getLogger());
+    }
 
     @Override
     public void onEnable() {
         if (getServer().getPluginManager().getPlugin("ViaVersion") == null) {
-            getLogger().severe("ViaVersion is not installed");
+            this.logger.error("You need to install ViaVersion to use ViaChatFixer");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
-        chatHandler = new ViaChatHandler(this);
-
         // Only load when ViaVersion is loaded
         getServer().getScheduler().runTask(this, () -> {
             try {
-                chatHandler.init();
-            } catch (Exception e) {
-                getLogger().log(Level.SEVERE, "An error occurred while enabling", e);
-                getServer().getPluginManager().disablePlugin(this);
-                return;
-            }
+                this.chatHandler.init();
 
-            getServer().getPluginManager().registerEvents(this, this);
+                getServer().getPluginManager().registerEvents(this, this);
+            } catch (Exception e) {
+                this.logger.error("An error occurred during initialization", e);
+                getServer().getPluginManager().disablePlugin(this);
+            }
         });
+    }
+
+    @Override
+    public LoggerAdapter getLoggerAdapter() {
+        return this.logger;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onAsyncPlayerChat(AsyncPlayerChatEvent e) {
-        String message = chatHandler.handle(e.getPlayer().getUniqueId());
+        String message = this.chatHandler.handle(e.getPlayer().getUniqueId());
 
         if (message != null) {
             e.setMessage(message);
@@ -51,7 +59,7 @@ public final class ViaChatFixerBukkit extends JavaPlugin implements ViaChatFixer
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
-        String message = chatHandler.handle(e.getPlayer().getUniqueId());
+        String message = this.chatHandler.handle(e.getPlayer().getUniqueId());
 
         if (message != null) {
             e.setMessage(message);

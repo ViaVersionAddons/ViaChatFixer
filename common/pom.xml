@@ -7,11 +7,27 @@
     <parent>
         <groupId>fr.mrmicky</groupId>
         <artifactId>viachatfixer</artifactId>
-        <version>0.3.0</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>viachatfixer-common</artifactId>
 
     <name>ViaChatFixerCommon</name>
+
+    <repositories>
+        <repository>
+            <id>viaversion-repo</id>
+            <url>https://repo.viaversion.com/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>us.myles</groupId>
+            <artifactId>viaversion</artifactId>
+            <version>3.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
 </project>

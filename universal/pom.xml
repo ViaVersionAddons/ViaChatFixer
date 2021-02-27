@@ -7,7 +7,7 @@
     <parent>
         <groupId>fr.mrmicky</groupId>
         <artifactId>viachatfixer</artifactId>
-        <version>0.3.0</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>viachatfixer-universal</artifactId>
@@ -47,18 +47,12 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!--<dependency>
-            <groupId>fr.mrmicky</groupId>
-            <artifactId>viachatfixer-bungee</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>fr.mrmicky</groupId>
             <artifactId>viachatfixer-sponge</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
-        </dependency>-->
+        </dependency>
     </dependencies>
 
 </project>

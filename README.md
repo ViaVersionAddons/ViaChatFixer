@@ -1,14 +1,13 @@
-# ViaChatFixer 
-[![Build Status](https://travis-ci.org/MrMicky-FR/ViaChatFixer.svg?branch=master)](https://travis-ci.org/MrMicky-FR/ViaChatFixer)
+# ViaChatFixer
+
+[![Java CI](https://github.com/MrMicky-FR/ViaChatFixer/actions/workflows/build.yml/badge.svg)](https://github.com/MrMicky-FR/ViaChatFixer/actions/workflows/build.yml)
 
 ViaChatFixer is a Spigot plugin that allow 1.11+ players to have longer chat messages on 1.8-1.10 servers with ViaVersion
 
-In Minecraft 1.11, the maximum messages length has gone from 100 characters to 256 characters.
-So if your server is under 1.11, 1.11 and higher players will have their chat messages cut at 100 characters.
+In Minecraft 1.11, the maximum messages length has gone from 100 characters to 256 characters. So if your server is under 1.11, 1.11 and higher
+players will have their chat messages cut at 100 characters.
 
-This plugin fix this problem, so 1.11 and higher players will able to send longer chat messages up to 256 characters :)
-
-**The plugin is currently in beta, so if you find bugs please open an issue**
+This plugin fix this problem, so 1.11 and higher players will be able to send longer chat messages up to 256 characters.
 
 ## Downloads
 
@@ -17,12 +16,13 @@ You can download releases and find more information on [SpigotMC](https://www.sp
 ## Installation
 
 Just put the ViaChatFixer jar in your plugins folder.
-Currently this plugin only works on Spigot, but Sponge support should be added soon.
-This plugin can work with BungeeCord as long as ViaVersion and this plugin are on the Spigot servers.
 
-**All players online during a reload will not be able to have longer chat messages until they reconnect**
+ViaChatFixer currently supports ViaVersion v3.0 or higher.
 
-## Planned features
+All players online during a reload will not be able to have longer chat messages until they reconnect.
 
-* Sponge support
-* BungeeCord support _(not sure)_
+## Supported Platforms
+
+ViaChatFixer can be installed on Bukkit/Spigot/Paper servers or on Sponge servers.
+
+If you are using a proxy, ViaVersion and ViaChatFixer must be installed on the backend servers.

@@ -26,10 +26,9 @@ import java.lang.reflect.Field;
 )
 public final class ViaChatFixerSponge implements ViaChatFixerPlatform {
 
-    private final ChatHandler chatHandler = new ChatHandler(this);
-
     private final SpongeLogger logger;
 
+    private ChatHandler chatHandler;
     private Field chatRawMessageField;
     private boolean chatRawMessageFieldInitialized;
 
@@ -40,6 +39,16 @@ public final class ViaChatFixerSponge implements ViaChatFixerPlatform {
 
     @Listener
     public void onServerStart(GameStartedServerEvent event) {
+        try {
+            Class.forName("com.viaversion.viaversion.api.ViaManager");
+        } catch (ClassNotFoundException e) {
+            this.logger.error("You need to install ViaVersion v4.0.0 or higher to use this version of ViaChatFixer.");
+            this.logger.error("If you can't update ViaVersion, you can use an older ViaChatFixer version.");
+            return;
+        }
+
+        this.chatHandler = new ChatHandler(this);
+
         try {
             this.chatHandler.init();
         } catch (Exception e) {

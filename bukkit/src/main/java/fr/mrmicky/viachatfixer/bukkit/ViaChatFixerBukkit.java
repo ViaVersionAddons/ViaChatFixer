@@ -13,9 +13,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ViaChatFixerBukkit extends JavaPlugin implements Listener, ViaChatFixerPlatform {
 
-    private final ChatHandler chatHandler = new ChatHandler(this);
-
     private LoggerAdapter logger;
+    private ChatHandler chatHandler;
 
     @Override
     public void onLoad() {
@@ -24,11 +23,16 @@ public final class ViaChatFixerBukkit extends JavaPlugin implements Listener, Vi
 
     @Override
     public void onEnable() {
-        if (getServer().getPluginManager().getPlugin("ViaVersion") == null) {
-            this.logger.error("You need to install ViaVersion to use ViaChatFixer");
+        try {
+            Class.forName("com.viaversion.viaversion.api.ViaManager");
+        } catch (ClassNotFoundException e) {
+            this.logger.error("You need to install ViaVersion v4.0.0 or higher to use this version of ViaChatFixer.");
+            this.logger.error("If you can't update ViaVersion, you can use an older ViaChatFixer versions.");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+
+        this.chatHandler = new ChatHandler(this);
 
         // Only load when ViaVersion is loaded
         getServer().getScheduler().runTask(this, () -> {

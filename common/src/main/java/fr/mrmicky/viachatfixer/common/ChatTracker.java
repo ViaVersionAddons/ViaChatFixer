@@ -1,7 +1,7 @@
 package fr.mrmicky.viachatfixer.common;
 
-import us.myles.ViaVersion.api.data.StoredObject;
-import us.myles.ViaVersion.api.data.UserConnection;
+import com.viaversion.viaversion.api.connection.StoredObject;
+import com.viaversion.viaversion.api.connection.UserConnection;
 
 public class ChatTracker extends StoredObject {
 

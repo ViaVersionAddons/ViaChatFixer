@@ -2,7 +2,7 @@
 
 [![Java CI](https://github.com/MrMicky-FR/ViaChatFixer/actions/workflows/build.yml/badge.svg)](https://github.com/MrMicky-FR/ViaChatFixer/actions/workflows/build.yml)
 
-ViaChatFixer is a Spigot plugin that allow 1.11+ players to have longer chat messages on 1.8-1.10 servers with ViaVersion
+ViaChatFixer is a Bukkit and Sponge plugin that allows 1.11+ players to have longer chat messages on 1.8-1.10 servers with ViaVersion
 
 In Minecraft 1.11, the maximum messages length has gone from 100 characters to 256 characters. So if your server is under 1.11, 1.11 and higher
 players will have their chat messages cut at 100 characters.
@@ -17,7 +17,7 @@ You can download releases and find more information on [SpigotMC](https://www.sp
 
 Just put the ViaChatFixer jar in your plugins folder.
 
-ViaChatFixer currently supports ViaVersion v3.0 or higher.
+ViaChatFixer currently supports ViaVersion v4.0 or higher.
 
 All players online during a reload will not be able to have longer chat messages until they reconnect.
 
@@ -26,3 +26,10 @@ All players online during a reload will not be able to have longer chat messages
 ViaChatFixer can be installed on Bukkit/Spigot/Paper servers or on Sponge servers.
 
 If you are using a proxy, ViaVersion and ViaChatFixer must be installed on the backend servers.
+
+### Versions compatibility
+
+| ViaChatFixer | ViaVersion | 
+| ------------ | ---------- |
+|    v1.0.0    |    v3.x    |
+|    v1.1.x    |    v4.x    |

@@ -1,15 +1,13 @@
 package fr.mrmicky.viachatfixer.common;
 
-import us.myles.ViaVersion.api.Via;
-import us.myles.ViaVersion.api.data.UserConnection;
-import us.myles.ViaVersion.api.protocol.Protocol;
-import us.myles.ViaVersion.api.protocol.ProtocolRegistry;
-import us.myles.ViaVersion.api.protocol.ProtocolVersion;
-import us.myles.ViaVersion.api.remapper.PacketRemapper;
-import us.myles.ViaVersion.api.type.Type;
-import us.myles.ViaVersion.packets.State;
-import us.myles.ViaVersion.protocols.protocol1_11to1_10.Protocol1_11To1_10;
-import us.myles.ViaVersion.protocols.protocol1_9_3to1_9_1_2.ServerboundPackets1_9_3;
+import com.viaversion.viaversion.api.Via;
+import com.viaversion.viaversion.api.connection.UserConnection;
+import com.viaversion.viaversion.api.protocol.Protocol;
+import com.viaversion.viaversion.api.protocol.packet.State;
+import com.viaversion.viaversion.api.protocol.remapper.PacketRemapper;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
+import com.viaversion.viaversion.api.type.Type;
+import com.viaversion.viaversion.protocols.protocol1_11to1_10.Protocol1_11To1_10;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,19 +26,18 @@ public class ChatHandler {
     }
 
     public void init() {
-        if (ProtocolRegistry.SERVER_PROTOCOL >= ProtocolVersion.v1_11.getId()) {
+        if (Via.getAPI().getServerVersion().lowestSupportedVersion() >= ProtocolVersion.v1_11.getVersion()) {
             this.platform.getLoggerAdapter().warn("This plugin is not required on 1.11+ servers, you can just remove it.");
             return;
         }
 
-        //noinspection unchecked
-        Protocol<?, ?, ?, ServerboundPackets1_9_3> protocol = ProtocolRegistry.getProtocol(Protocol1_11To1_10.class);
+        Protocol<?, ?, ?, ?> protocol = Via.getManager().getProtocolManager().getProtocol(Protocol1_11To1_10.class);
 
         if (protocol == null) {
             throw new IllegalStateException("Protocol 1_11To1_10 not found");
         }
 
-        protocol.registerIncoming(State.PLAY, 0x02, 0x02, new PacketRemapper() {
+        protocol.registerServerbound(State.PLAY, 0x02, 0x02, new PacketRemapper() {
             @Override
             public void registerMap() {
                 map(Type.STRING); // 0 - Message
@@ -94,7 +91,7 @@ public class ChatHandler {
     }
 
     private ChatTracker getChatTracker(UUID uuid) {
-        UserConnection connection = Via.getManager().getConnection(uuid);
+        UserConnection connection = Via.getManager().getConnectionManager().getConnectedClient(uuid);
 
         if (connection == null) {
             if (this.unknownPlayers.add(uuid)) {

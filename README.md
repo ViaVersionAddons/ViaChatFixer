@@ -17,7 +17,7 @@ You can download releases and find more information on [SpigotMC](https://www.sp
 
 Just put the ViaChatFixer jar in your plugins folder.
 
-ViaChatFixer currently supports ViaVersion v4.0 or higher.
+ViaChatFixer currently supports ViaVersion v5.0 or higher, and requires Java 17.
 
 All players online during a reload will not be able to have longer chat messages until they reconnect.
 
@@ -30,6 +30,7 @@ If you are using a proxy, ViaVersion and ViaChatFixer must be installed on the b
 ### Versions compatibility
 
 | ViaChatFixer | ViaVersion | 
-| ------------ | ---------- |
-|    v1.0.0    |    v3.x    |
-|    v1.1.x    |    v4.x    |
+|--------------|------------|
+| v1.0.0       | v3.x       |
+| v1.1.0       | v4.x       |
+| v1.2.x       | v5.x       |

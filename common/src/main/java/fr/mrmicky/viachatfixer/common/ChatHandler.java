@@ -4,10 +4,10 @@ import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.protocol.Protocol;
 import com.viaversion.viaversion.api.protocol.packet.State;
-import com.viaversion.viaversion.api.protocol.remapper.PacketRemapper;
+import com.viaversion.viaversion.api.protocol.remapper.PacketHandlers;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-import com.viaversion.viaversion.api.type.Type;
-import com.viaversion.viaversion.protocols.protocol1_11to1_10.Protocol1_11To1_10;
+import com.viaversion.viaversion.api.type.Types;
+import com.viaversion.viaversion.protocols.v1_10to1_11.Protocol1_10To1_11;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,30 +26,30 @@ public class ChatHandler {
     }
 
     public void init() {
-        if (Via.getAPI().getServerVersion().lowestSupportedVersion() >= ProtocolVersion.v1_11.getVersion()) {
+        if (Via.getAPI().getServerVersion().lowestSupportedProtocolVersion().getVersion() >= ProtocolVersion.v1_11.getVersion()) {
             this.platform.getLoggerAdapter().warn("This plugin is not required on 1.11+ servers, you can just remove it.");
             return;
         }
 
-        Protocol<?, ?, ?, ?> protocol = Via.getManager().getProtocolManager().getProtocol(Protocol1_11To1_10.class);
+        Protocol<?, ?, ?, ?> protocol = Via.getManager().getProtocolManager().getProtocol(Protocol1_10To1_11.class);
 
         if (protocol == null) {
-            throw new IllegalStateException("Protocol 1_11To1_10 not found");
+            throw new IllegalStateException("Protocol1_10To1_11 not found");
         }
 
-        protocol.registerServerbound(State.PLAY, 0x02, 0x02, new PacketRemapper() {
+        protocol.registerServerbound(State.PLAY, 0x02, 0x02, new PacketHandlers() {
             @Override
-            public void registerMap() {
-                map(Type.STRING); // 0 - Message
+            public void register() {
+                map(Types.STRING); // 0 - Message
                 handler(wrapper -> {
                     // 100 character limit on older servers
-                    String message = wrapper.get(Type.STRING, 0);
+                    String message = wrapper.get(Types.STRING, 0);
 
                     if (message.length() <= 100) {
                         return;
                     }
 
-                    wrapper.set(Type.STRING, 0, message.substring(0, 100));
+                    wrapper.set(Types.STRING, 0, message.substring(0, 100));
 
                     UserConnection connection = wrapper.user();
                     ChatTracker chatTracker = connection.get(ChatTracker.class);

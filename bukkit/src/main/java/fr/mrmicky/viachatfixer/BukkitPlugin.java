@@ -1,4 +1,4 @@
-package fr.mrmicky.viachatfixer.bukkit;
+package fr.mrmicky.viachatfixer;
 
 import fr.mrmicky.viachatfixer.common.ChatHandler;
 import fr.mrmicky.viachatfixer.common.ViaChatFixerPlatform;
@@ -11,7 +11,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class ViaChatFixerBukkit extends JavaPlugin implements Listener, ViaChatFixerPlatform {
+public final class BukkitPlugin extends JavaPlugin implements Listener, ViaChatFixerPlatform {
 
     private LoggerAdapter logger;
     private ChatHandler chatHandler;

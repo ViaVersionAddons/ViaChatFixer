@@ -1,9 +1,5 @@
 package fr.mrmicky.viachatfixer;
 
-import fr.mrmicky.viachatfixer.common.ChatHandler;
-import fr.mrmicky.viachatfixer.common.ViaChatFixerPlatform;
-import fr.mrmicky.viachatfixer.common.logger.JavaLoggerAdapter;
-import fr.mrmicky.viachatfixer.common.logger.LoggerAdapter;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -11,23 +7,19 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class BukkitPlugin extends JavaPlugin implements Listener, ViaChatFixerPlatform {
+import java.util.logging.Level;
 
-    private LoggerAdapter logger;
+public final class ViaChatFixer extends JavaPlugin implements Listener {
+
     private ChatHandler chatHandler;
-
-    @Override
-    public void onLoad() {
-        this.logger = new JavaLoggerAdapter(getLogger());
-    }
 
     @Override
     public void onEnable() {
         try {
-            Class.forName("com.viaversion.viaversion.api.ViaManager");
+            Class.forName("com.viaversion.viaversion.api.type.Types");
         } catch (ClassNotFoundException e) {
-            this.logger.error("You need to install ViaVersion v5.0.0 or higher to use this version of ViaChatFixer.");
-            this.logger.error("If you can't update ViaVersion, you can use an older ViaChatFixer versions.");
+            getLogger().severe("You need to install ViaVersion v5.0.0 or higher to use this version of ViaChatFixer.");
+            getLogger().severe("If you can't update ViaVersion, you can use an older ViaChatFixer versions.");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -37,19 +29,17 @@ public final class BukkitPlugin extends JavaPlugin implements Listener, ViaChatF
         // Only load when ViaVersion is loaded
         getServer().getScheduler().runTask(this, () -> {
             try {
-                this.chatHandler.init();
+                if (!this.chatHandler.init()) {
+                    getServer().getPluginManager().disablePlugin(this);
+                    return;
+                }
 
                 getServer().getPluginManager().registerEvents(this, this);
             } catch (Exception e) {
-                this.logger.error("An error occurred during initialization", e);
+                getLogger().log(Level.SEVERE, "An error occurred during initialization", e);
                 getServer().getPluginManager().disablePlugin(this);
             }
         });
-    }
-
-    @Override
-    public LoggerAdapter getLoggerAdapter() {
-        return this.logger;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

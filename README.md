@@ -15,7 +15,7 @@ You can download releases and find more information on [SpigotMC](https://www.sp
 
 ## Installation
 
-Just put the ViaChatFixer jar in your plugins folder.
+Just put the ViaChatFixer jar in your `plugins` folder.
 
 ViaChatFixer currently supports ViaVersion v5.0 or higher, and requires Java 17.
 

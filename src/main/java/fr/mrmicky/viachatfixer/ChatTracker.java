@@ -1,4 +1,4 @@
-package fr.mrmicky.viachatfixer.common;
+package fr.mrmicky.viachatfixer;
 
 import com.viaversion.viaversion.api.connection.StoredObject;
 import com.viaversion.viaversion.api.connection.UserConnection;

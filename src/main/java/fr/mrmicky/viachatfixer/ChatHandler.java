@@ -1,4 +1,4 @@
-package fr.mrmicky.viachatfixer.common;
+package fr.mrmicky.viachatfixer;
 
 import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.connection.UserConnection;
@@ -17,18 +17,20 @@ public class ChatHandler {
 
     private final Set<UUID> unknownPlayers = new HashSet<>();
 
-    private final ViaChatFixerPlatform platform;
+    private final ViaChatFixer plugin;
 
     private boolean enabled = false;
 
-    public ChatHandler(ViaChatFixerPlatform platform) {
-        this.platform = platform;
+    public ChatHandler(ViaChatFixer plugin) {
+        this.plugin = plugin;
     }
 
-    public void init() {
-        if (Via.getAPI().getServerVersion().lowestSupportedProtocolVersion().getVersion() >= ProtocolVersion.v1_11.getVersion()) {
-            this.platform.getLoggerAdapter().warn("This plugin is not required on 1.11+ servers, you can just remove it.");
-            return;
+    public boolean init() {
+        ProtocolVersion lowestVersion = Via.getAPI().getServerVersion().lowestSupportedProtocolVersion();
+
+        if (lowestVersion.getVersion() >= ProtocolVersion.v1_11.getVersion()) {
+            this.plugin.getLogger().warning("This plugin is not required on 1.11+ servers, you can just remove it.");
+            return false;
         }
 
         Protocol<?, ?, ?, ?> protocol = Via.getManager().getProtocolManager().getProtocol(Protocol1_10To1_11.class);
@@ -42,7 +44,7 @@ public class ChatHandler {
             public void register() {
                 map(Types.STRING); // 0 - Message
                 handler(wrapper -> {
-                    // 100 character limit on older servers
+                    // 100 characters limit on older servers
                     String message = wrapper.get(Types.STRING, 0);
 
                     if (message.length() <= 100) {
@@ -70,6 +72,8 @@ public class ChatHandler {
         }, true);
 
         this.enabled = true;
+
+        return true;
     }
 
     public String handle(UUID uuid) {
@@ -95,7 +99,7 @@ public class ChatHandler {
 
         if (connection == null) {
             if (this.unknownPlayers.add(uuid)) {
-                this.platform.getLoggerAdapter().warn("Unknown connection for player with UUID " + uuid);
+                this.plugin.getLogger().warning("Unknown connection for player with UUID " + uuid);
             }
 
             return null;
